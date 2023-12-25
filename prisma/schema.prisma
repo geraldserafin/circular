@@ -1,0 +1,88 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String?
+  picture   String?
+  email     String   @unique
+  createdAt DateTime @default(now())
+  member    Member[]
+  Issue     Issue[]
+}
+
+model Workspace {
+  id         Int        @id @default(autoincrement())
+  name       String
+  createdAt  DateTime   @default(now())
+  members    Member[]
+  projects   Project[]
+  statuses   Status[]
+  priorities Priority[]
+}
+
+model Member {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  workspaceId Int
+  role        String
+  user        User      @relation(fields: [userId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  createdAt   DateTime  @default(now())
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  workspaceId Int
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  issues      Issue[]
+  createdAt   DateTime  @default(now())
+}
+
+model Issue {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  statusId    Int
+  priorityId  Int
+  projectId   Int
+  createdById Int
+  status      Status    @relation(fields: [statusId], references: [id])
+  priority    Priority  @relation(fields: [priorityId], references: [id])
+  project     Project   @relation(fields: [projectId], references: [id])
+  createdBy   User      @relation(fields: [createdById], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Comment     Comment[]
+}
+
+model Status {
+  id          Int       @id @default(autoincrement())
+  name        String
+  workspaceId Int
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  issues      Issue[]
+}
+
+model Priority {
+  id          Int       @id @default(autoincrement())
+  name        String
+  workspaceId Int
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  issues      Issue[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  issueId   Int
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  createdAt DateTime @default(now())
+}
