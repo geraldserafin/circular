@@ -1,5 +1,4 @@
-import { db } from "@/lib/prisma";
-import { log } from "console";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request, res: Response) {
   const { email, secret, nickname, picture } = await req.json();
@@ -9,13 +8,10 @@ export async function POST(req: Request, res: Response) {
   }
 
   if (!email) {
-    return Response.json(
-      { details: "You must provide an email" },
-      { status: 403 }
-    );
+    return Response.json({ details: "Missing email" }, { status: 403 });
   }
 
-  await db.user.create({
+  await prisma.user.create({
     data: { email, username: nickname, picture: picture },
   });
 

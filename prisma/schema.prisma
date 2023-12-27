@@ -18,23 +18,30 @@ model User {
 }
 
 model Workspace {
-  id         Int        @id @default(autoincrement())
-  name       String
-  createdAt  DateTime   @default(now())
-  members    Member[]
-  projects   Project[]
-  statuses   Status[]
-  priorities Priority[]
+  id          Int        @id @default(autoincrement())
+  name        String
+  url         String     @unique
+  invite_code String     @db.VarChar(32)
+  createdAt   DateTime   @default(now())
+  members     Member[]
+  projects    Project[]
+  Status      Status[]
+  Priority    Priority[]
 }
 
 model Member {
   id          Int       @id @default(autoincrement())
   userId      Int
   workspaceId Int
-  role        String
+  role        Role      @default(MEMBER)
   user        User      @relation(fields: [userId], references: [id])
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
   createdAt   DateTime  @default(now())
+}
+
+enum Role {
+  ADMIN
+  MEMBER
 }
 
 model Project {
