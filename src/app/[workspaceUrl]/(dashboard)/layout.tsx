@@ -1,9 +1,9 @@
 "use server";
 
-import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma"
 import { getSession } from "@auth0/nextjs-auth0";
 import { notFound } from "next/navigation";
+import LayoutPanels from "./layout-panels";
 
 export default async function Layout({ children, params }: { children: React.ReactNode, params: { workspaceUrl: string } }) {
   const session = await getSession();
@@ -14,10 +14,8 @@ export default async function Layout({ children, params }: { children: React.Rea
   if (!workspace) return notFound();
 
   return (
-    <div className="min-h-screen">
-      <Button>
-        Button
-      </Button>
-    </div>
+    <LayoutPanels workspace={workspace} >
+      {children}
+    </LayoutPanels>
   );
 }
