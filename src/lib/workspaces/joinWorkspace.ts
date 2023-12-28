@@ -51,5 +51,5 @@ export async function joinWorkspace(
     return { error: "Could not join workspace" };
   }
 
-  redirect(`/workspaces/${workspace.url}`);
+  redirect(`/${workspace.url}`);
 }

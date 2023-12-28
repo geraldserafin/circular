@@ -17,7 +17,7 @@ export default async function JoinTeam({ params }: { params: { workspaceUrl: str
   }
 
   return (
-    <div className="w-screen h-screen bg-neutral-900 flex items-center justify-center">
+    <div className="w-screen h-screen flex items-center justify-center">
       <JoinWorkspaceForm workspace={workspace} />
     </div>
   );

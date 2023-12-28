@@ -1,20 +1,31 @@
 "use client"
 
 import { useFormState } from "react-dom";
-import { FormTextField } from "../theme/form-text-field";
-import { Button } from "../theme/button";
 import { createWorkspace } from "@/lib/workspaces/createWorkspace";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
 export default function CreateWorkspaceForm() {
   const [state, action] = useFormState(createWorkspace, {});
 
   return (
     <form action={action}>
-      <div className="p-6 bg-neutral-800 shadow-xl rounded mb-4 flex flex-col gap-6">
-        <FormTextField error={state.workspace_name_error} name="workspace_name" label="Workspace name" required />
-        <FormTextField error={state.workspace_url_error} name="workspace_url" label="Workspace URL" required />
+      <Card className="p-6 mb-6 flex flex-col gap-6">
+        <div className="flex flex-col w-full max-w-sm gap-1.5">
+          <Label htmlFor="workspaceName" className="text-left">Workspace name</Label>
+          <Input type="text" name="workspaceName" id="workspaceName" required />
+        </div>
+
+        <div className="flex flex-col w-full max-w-sm gap-1.5">
+          <Label htmlFor="workspaceUrl" className="text-left">Workspace URL</Label>
+          <Input type="text" name="workspaceUrl" id="workspaceUrl" required />
+        </div>
+
         {state.error && <p className="text-xs text-red-500">{state.workspace_url_error}</p>}
-      </div>
+      </Card>
+
       <Button role="submit">Create workspace</Button>
     </form>
   )

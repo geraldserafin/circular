@@ -23,8 +23,8 @@ export async function createWorkspace(
   const session = await getSession();
 
   const raw_form_data = {
-    workspace_name: formData.get("workspace_name"),
-    workspace_url: formData.get("workspace_url"),
+    workspace_name: formData.get("workspaceName"),
+    workspace_url: formData.get("workspaceUrl"),
   };
 
   const schema = z.object({

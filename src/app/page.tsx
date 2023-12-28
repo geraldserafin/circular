@@ -1,4 +1,4 @@
-import { Highlighted } from '@/components/theme/highlighted';
+import { Button } from '@/components/ui/button';
 import CreateWorkspaceForm from '@/components/workspaces/CreateWorkspaceForm';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@auth0/nextjs-auth0';
@@ -21,15 +21,15 @@ export default async function Home() {
 
   if (workspaces.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col p-8 dark:bg-neutral-900 dark:text-neutral-200">
+      <div className="min-h-screen flex flex-col p-8">
         <nav className="flex justify-between text-sm">
-          <Highlighted>
+          <Button variant="ghost" asChild>
             <a href="/api/auth/logout" className="font-semibold">Log out</a>
-          </Highlighted>
+          </Button>
 
 
           <div>
-            <span className="text-xs dark:text-neutral-400">Logged in as:</span>
+            <span className="text-xs text-muted-foreground">Logged in as:</span>
             <br />
             <p className="font-semibold">
               {session!.user.email}
@@ -39,7 +39,7 @@ export default async function Home() {
 
         <main className="max-w-md text-center m-auto">
           <h1 className="text-2xl font-semibold mb-4">Create a new workspace</h1>
-          <p className="text-neutral-400 mb-8">Workspaces are shared enviroments where teams can work on projects, cycles and tasks.</p>
+          <p className="text-muted-foreground mb-8">Workspaces are shared enviroments where teams can work on projects, cycles and tasks.</p>
           <CreateWorkspaceForm />
         </main>
       </div>
